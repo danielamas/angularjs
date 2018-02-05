@@ -35,7 +35,7 @@ angular.module('minhasDiretivas', [])
         //         +   '   </div>'
         //         +   '</div>'
 
-        ddo.templateUrl = 'js/directives/meu-painel.html'
+        ddo.templateUrl = 'js/directives/meu-painel.html';
         
         ddo.transclude = true;
 
@@ -49,6 +49,17 @@ angular.module('minhasDiretivas', [])
             titulo: '@' //quando o nome do atributo na diretiva na marcação é igual ao nome da propriedade que guardará o seu valor, podemos deixar apenas @
         };
 
-        ddo.templateUrl = 'js/directives/minha-foto.html'
+        ddo.templateUrl = 'js/directives/minha-foto.html';
+        return ddo;
+    })
+    .directive('botaoAcao', function () {
+        var ddo = {};
+        ddo.restrict = "AE";
+        ddo.scope = {
+            acao: '&', //usamos & para passar uma referencia a funcao do controller (expressão) onde essa directive esta sendo usada
+            nome: '@'
+        };
+
+        ddo.templateUrl = 'js/directives/botao-acao.html';
         return ddo;
     });
