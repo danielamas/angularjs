@@ -1,5 +1,5 @@
 const directivesArray   = ['minhasDiretivas'];
-const ngArray           = ['ngAnimate', 'ngRoute'];
+const ngArray           = ['ngAnimate', 'ngRoute', 'services'];
 
 function dependencias() {
     return ngArray.concat(directivesArray);

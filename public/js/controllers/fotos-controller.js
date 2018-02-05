@@ -1,30 +1,28 @@
-angular.module('alurapic').controller('FotosController', function ($scope, $http) {
+angular.module('alurapic').controller('FotosController', function ($scope, restService) {
     
     $scope.filtro = '';
     $scope.fotos = [];
     $scope.msg = '';
 
-    $http.get('/v1/fotos')
-    .success(function(retorno) {
-        $scope.fotos = retorno;
-    })
-    .error(function(erro) {
-        console.log(erro)
+    restService.query(function(fotos){
+        $scope.fotos = fotos;
+    },
+    function(error){
+        console.log(error);    
     });
 
     $scope.remover = function(foto) {
-        $http.delete('/v1/fotos/' + foto._id)
-        .success(function() {
+        restService.delete({fotoId : foto._id}, function(){
             $scope.fotos.splice($scope.fotos.indexOf(foto), 1); //index , amount of fotos
             if(foto.titulo != undefined && foto != null) {
                 $scope.msg = 'Foto ' + foto.titulo + ' removida com sucesso';
             }
-        })
-        .error(function(erro) {
+        },
+        function() {
             if(foto.titulo != undefined && foto != null) {
                 $scope.msg = 'Falha ao remover a foto ' + foto.titulo;
             }
-            console.log(erro)
+            console.log(erro);
         });
     };
 
