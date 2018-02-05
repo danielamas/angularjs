@@ -1,12 +1,15 @@
 <div class="jumbotron">
     <h1 class="text-center">Alurapic</h1>
 </did>
+
+<p ng-show="msg.length" class="alert alert-info">{{msg}}</p>
+
 <div class="row">
     <div class="col-md-12">
         <form>
             <div class="input-group">
                 <span class="input-group-btn">
-                    <a href="fotos/new" class="btn btn-primary ">Nova Foto</a>
+                    <a href="fotos/new" class="btn btn-primary">Nova Foto</a>
                 </span>
                 <input ng-model="filtro" ng-model-options="{debounce: 500}" class="form-control" placeholder="filtrar pelo título da foto">
             </div>
@@ -17,5 +20,7 @@
 <div class="row">
     <meu-painel class="col-md-2 painel-animado" ng-repeat="foto in fotos | filter: filtro" titulo="{{foto.titulo}}">
         <minha-foto url="{{foto.url}}" titulo="{{foto.titulo}}"></minha-foto>
+        <a href="fotos/edit/{{foto._id}}" class="btn btn-primary btn-block">Editar</a>
+        <button class="btn btn-danger btn-block" ng-click="remover(foto)">Remover</button>
     </meu-painel>
 </div>
