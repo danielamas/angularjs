@@ -1,15 +1,20 @@
 angular.module('services', ['ngResource'])
-.factory('restService', function($resource) {
-    return $resource('/v1/fotos/:fotoId', null, {
+.value('baseUrl', {
+    url: "/v1/fotos/:fotoId"
+})
+.factory('restService', function($resource, baseUrl) {
+    return $resource(baseUrl.url, null, {
         update: {method : 'PUT'}
     });
 })
-.factory('crudFoto', function(restService, $q) {
+.factory('crudFoto', function(restService, $q, $rootScope) {
     var servico = {};
+    var event = 'fotoCadastrada';
     servico.cadastrar = function(foto) {
         return $q(function(resolve, reject) {
             if(foto._id) {
                 restService.update({fotoId: foto._id}, foto, function() {
+                    $rootScope.$broadcast(event);
                     resolve({
                         msg : 'Foto atualizada com sucesso!',
                         inclusao : false
@@ -21,6 +26,7 @@ angular.module('services', ['ngResource'])
                 });
             } else {
                 restService.save(foto, function() {
+                    $rootScope.$broadcast(event);
                     resolve({
                         msg : 'Foto cadastrada com sucesso!',
                         inclusao : true

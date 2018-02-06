@@ -1,4 +1,4 @@
-angular.module('minhasDiretivas', [])
+angular.module('minhasDiretivas', ['services'])
     .directive('meuPainel', function () {
         //directive deve retornar um directive definition object (DDO)
         //Uma diretiva em Angular pode ser usada como 'E' lemento, 'A' tributo ou Comentário
@@ -61,5 +61,47 @@ angular.module('minhasDiretivas', [])
         };
 
         ddo.templateUrl = 'js/directives/botao-acao.html';
+        return ddo;
+    })
+    .directive('putFocus', function () {
+        var ddo = {};
+        ddo.restrict = "A";
+        // ddo.scope = {
+        //     focado: '='
+        // };
+
+        ddo.link = function(scope, element) {
+            // scope.$watch('focado', function() {
+            //     if(scope.focado) {
+            //         element[0].focus();
+            //         scope.focado = false;
+            //     }
+            // });
+
+            scope.$on('fotoCadastrada', function() {
+                element[0].focus();
+            });
+        }
+ 
+        return ddo;
+    })
+    .directive('getTitulos', function () {
+        var ddo = {};
+        ddo.restrict = "E";
+        ddo.template = '<ul><li ng-repeat="titulo in titulos">{{titulo}}</li></ul>';
+        ddo.controller = function($scope, crudFoto, restService) {
+            crudFoto.listar()
+            .then(function(dado) {
+                if(dado.fotos != undefined && dado.fotos.length > 0) {
+                    $scope.titulos = dado.fotos.map(function(itemFoto) {
+                        return itemFoto.titulo;
+                    });
+                }
+            })
+            .catch(function() {
+                console.log(dado.msg);
+            });
+        };
+
         return ddo;
     });

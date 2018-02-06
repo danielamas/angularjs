@@ -1,4 +1,4 @@
-angular.module('alurapic').controller('FotoController', function ($scope, $routeParams, crudFoto, restService) {
+angular.module('alurapic').controller('FotoController', function ($scope, $routeParams, crudFoto) {
     $scope.foto = {};
     $scope.msg = '';
 
@@ -18,6 +18,8 @@ angular.module('alurapic').controller('FotoController', function ($scope, $route
                 $scope.foto = {};
                 $scope.formulario.$setPristine();
                 $scope.msg = dados.msg;
+                // $scope.focado = true;
+                // $scope.$broadcast('fotoCadastrada');
             })
             .catch(function(dados) {
                 $scope.msg = dados.msg;
